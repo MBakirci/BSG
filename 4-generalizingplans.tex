@@ -1,0 +1,60 @@
+\label{chapter:generalizing-planning}
+
+\subsection{About}
+Planning is an important part for AI in real-time strategy games. However most planning methods are tested and optimized for one specific environment. Ideally, agents should learn from experiences, generalize plans and apply this information, without a lot effort and replanning, in multiple environments.
+
+This paper uses a relational Markov Decision Process (RMDP) framework which consist of class-based approximates of value functions. These functions are computed with an efficient linear programming (LP) method. The solution obtained by the LP with sampled environments or worlds $w$ will show that the approximations of value functions in other worlds are close to value functions of worlds which are sampled.
+
+To demonstrate, the strategic war game named Freecraft (renamed as Wargus) [\url{http://wargus.github.io/index.html}] is used. This game is an open source version of Warcraft2. Freecraft consists a couple of basic elements, such as agents/units (peasants and footmen), resources (gold and wood) and structures (barracks). The role of the peasants is to collect gold and wood to build barracks. The barracks are used for training footmen and the trained footmen will fight with enemies and needs to destroy the opponent barracks.  
+These elements are similar in each scenario, but differ in amounts and map layout.
+
+\subsection{Applied Methods and Techniques}
+
+In this subsection, the different methods and techniques that are used in the paper will be discussed. First of all, the Relational Markov Decision Processes technique will be explained. After that, a technique for Generalizing Plans with Relational MDPs will be explained.
+
+\subsubsection{Relational Markov Decision Processes} \label{RMDP}~\\   
+
+A RMDP defines the system dynamics and rewards as a template for a task domain. In a specific environment with in a given domain a specific MDP will be generated.
+
+Each world $w$ instantiate a particular schema. This schema defines a particular domain. Further more the schema specifies a set with object classes $C = \{C_{1},...,C_{c} \},$. Each object class is associated with a set of state variables $S[C] = \{ S_{1},...,S_{c}\}$. These state variables have a domain $Dom[C.S]$ of possible states of variable $C$. 
+The schema also specifies a set of links $L[C] = \{L_{1},...,L_{l}\}$  between objects and each of these links has range $\rho[C.L]$.
+Also the system dynamics are defined in the schema. For each class $C$, an action $C.A$ with a domain $Dom[C.A]$ of possible values is specified and a transition model $P^{C}$, which specifies the probability distribution over the next state of an object.
+At last the reward function $R (S_{C}, C.A)$ for each object in $C$ is defined in the schema.
+
+A simplified example is when one footman has a battle with a enemy. The object classes can be specified as $Footman$ and $Enemy$ in the set of $C$. Those objects have both state variables $Health$ and $Task$ with domain $Dom[Health] = \{Healthy, Wounded, Dead\}$ and $Dom[Task] = \{Waiting, Sleeping, Training, \\ Fighting\}$ and the footman has a link $\rho[Footman, MyEnemyTarget] = Enemy$. This links relates the health of the footman to the healft of the enemy and vice versa, so the transition model of the footman will become $P^{Footman} (S'_{Footman} | S_{Footman}, S_{Footman.MyEnemyTarget})$ and the range $\rho[Footman.MyEnemyTarget] = \{ Enemy \}$. The reward for the footman is when a enemy is killed so the reward function becomes $R^{Enemy}(S^{Enemy})$
+
+
+\subsubsection{Generalizing Plans with Relational MDPs} ~\\
+
+MDPs can be solved with Linear Programming (LP).
+Linear Programming is a simple technique to maximize or minimize linear functions with various constraints.
+The downside of this approach is that exact LP solutions are not suited to solve large problems, because the complexity grows exponentially with the numbers of linear value functions.
+
+Factorizing the linear value functions (sum of local value sub-functions) as an approximation to the joint value function avoids the exponential grow. 
+Factored MDPs allow the representation of large structured MDPs by using a dynamic Bayesian network (DBN) to represent the transition model.\citep{NIPS2001_1941}
+
+Although factorizing MDPs are not directly solving generalization problems. To generalize MDPs, bundling the transition model and reward function which behave similarly in all environments is obvious. The interactions of these objects with other objects differ in different scenarios, but their local contribution to the value function is often similar. Therefore a parameterized class-based local value subfunction $V_C$ for each class is defined. From now on, there is no need to define each object separately, e.g. $V_{Footman1}$ becomes $V_{Footman}(F1.Health, E1.Health)$ 
+With this kind of value functions, the contributions of different objects of the same class can differ in any given state.
+
+With a single set of local class-level value functions it is easy to generalize from one or more worlds to a new environment without replanning.
+
+\subsubsection{Sampling Worlds} ~\\
+
+The idea of sampling worlds is the process of solving the LP for a reasonable amount of worlds from the transitional model $P(w)$. Instead of sampling all worlds, a set of worlds is defined. This approach prevents the growth of the number of possible object constraints which grows with the amount of worlds.
+With the resulting class-based local value function of these sampled worlds, other worlds are able to use the same value functions.
+
+The solutions of the LP of the sampled worlds are not completely equal to solutions if all worlds where considered simultaneously. Although, the quality of the approximations are very close to the exact solutions.
+
+\subsection{Contributions to Reinforcement Learning}
+
+Generalizing RMDPs take advantage of the relational representation of the value functions or policies to similar domains.
+With this approach in RTS games, new environments can be played without minimal to no replanning effort. This gives the opportunities to cut the problems of bigger environments to smaller ones and train the agents more focused and fine tune the value functions and up scale the problems in larger ones.
+
+As mentioned in the Discussion and Conclusions section of this paper, the approach to generalize RMDPs are not perfectly suited in domains of real-world task, like RoboCup and Blocksworld\citep{SLANEY2001119} planning, where the relations of objects can change over time.
+
+
+\subsection{Future Plans}
+
+The result in the paper shows that the value functions can be scaled up to unknown worlds with fixed number of objects e.g. in a tactical model 4 footmen beat 4 enemies in a battle successfully without replanning. The games can be scaled up to more dynamic battles in RTS games. 
+
+Furthermore, new research in the field of generalizing RMDPs can be done at large real-world tasks. A set of environments can be sampled and these samples can used in new environments. An example is autonomous driving cars where an environment with traffic lights, pedestrians and other cars can be defined in a schema as in \ref{RMDP} and make approximated value functions.

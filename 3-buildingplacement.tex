@@ -1,0 +1,46 @@
+\label{chapter:genetic-building}
+
+\subsection{About}
+
+One of the sub-problems of RTS games is the problem of Building Placement, which can be classified as a spatial and temporal reasoning problem as defined by Buro. This problem is concerned with constructing buildings at strategic locations with the goal of slowing down potential enemy attacks as much as possible while still allowing friendly units to move around freely. Strategic building placement is crucial for top-level play in RTS games\citep{barriga2014building}.
+
+Building placement is a complex combinatorial optimization problem which cannot be solved by exhaustive enumeration on today’s computers\citep{barriga2014building}. Traditionally, RTS game bots used several less sophisticated techniques which depend on hard-coded domain rules, map analysis libraries and simple spiral search. This paper investigates the use of a Genetic Algorithms (GA) to solve the problem.
+
+\subsection{Applied Methods and Techniques}
+
+GAs are search algorithms which can be used to solve combinatorial optimization problems. The working of GAs is inspired by Darwin's evolution theory\citep{darwin1859origin}. The researchers chose to use a GA because the place of buildings can be easily represented in a chromosome.
+
+In a GA we start with a pool of randomly generated chromosomes. A chromosome represents a solution to the problem and consists of genes, each gene represents a variable. In this implementation a gene represents a building and contains the buildings position on the game map. The order of genes is maintained, every gene (position) represents a specific building.
+
+For each chromosome the fitness is determined by simulating a game from a battle specification. The battle specifications are based on replays from top human players and bots. The fitness score is the value of the remaining army after a battle ended. The value of the army is the sum of the values of the remaining units, the value of the units is calculated by rules based on the mineral cost, gas cost, health and the type of the unit. The value is negative when the battle is lost.
+
+After the fitness is determined, chromosomes need to be selected for reproduction. Selection happens by the roulette wheel selection process\citep{goldberg89} with linear scaling of the fitness. Every chromosome has a slot in a roulette wheel where the size of the slot is determined by the fitness. A higher fitness results in a larger slot which increases the probability that this specific chromosomes will be selected. Selected chromosomes are copied to a mating pool.
+
+Now, the chromosomes in the mating pool are randomly paired. Each pair of chromosomes undergoes a crossover and produces two children. The researches have chosen to use uniform crossover instead of the more traditional N-point crossover because they believe that there is little relationship between two genes (location of two buildings). In uniform crossover, every child's gene is selected randomly from one of the two parents' genes from the same gene position.       
+
+For each gene in a child's chromosome a mutation operator can be executed. The mutation operator moves the building randomly near by its current location. Whether the operator is executed is determined randomly with a small probability.
+
+As a consequence of the random selection of the chromosomes it could occur that the best performing chromosome is not selected for mating. This could result in that the best found solution will be lost. To prevent this from happening a process known as elitism is applied. With elitism, the chromosome with the highest fitness is copied unaltered to the new chromosome pool, no cross-over or mutation is applied.
+
+At some point the algorithm needs to terminate. There are several ways to determine when this needs to happen, for example when the fitness value reaches some criterion or when it is expected that no better solution will be found. The authors decided to simply stop after a fixed number of generations\citep{barriga2014building}.
+
+The authors found that building placement has little influence on the outcome if the composition of both player armies is too unbalanced. Therefore, they altered the battle specifications such that the attacker always wins by adding extra units. This way they could measure how many loses could be turned into wins by the GA. The effectiveness is measured with two configurations, cross-optimized and direct-optimized, where the difference is with which data set the GA is trained. The training set of the direct-optimized configuration includes the actual game which is used to test the result, in contrast to the cross-optimized.
+
+One third of the lost battles could be turned into wins by the cross-optimized GA. The direct-optimized GA turned two thirds of the battles into wins. The authors contributes this difference to the knowledge of the direct-optimized GA of the opponents army. They expect that combination with an army prediction algorithm could benefit the GA.   
+
+\subsection{Contributions to Reinforcement Learning}
+
+The GA itself uses little domain-specific knowledge and can therefore be used in other RTS games. For usage in other games the fitness function needs to be altered.        
+
+Although GAs are efficient and fast, they can scale badly depending on the selection algorithm. In the described GA, roulette wheel selection is used which is a proportionate selection algorithm. The convergence time for proportional selection is an exponential function of the number of genes in the chromosome\citep{thierens1998domino}. In this GA every building represents a gene, therefore we can expect this GA to perform bad in games with a very large number of buildings.
+
+Another downside of GAs is that they can converge to a local optimum and never reach the global optimum. This means that it can happen that the ideal building placement will never be found.
+
+Using GAs in RTS games is not common, most of the papers we read used different gradient-based training methods. This paper shows that GAs can be used for specific sub-problems in RTS games, which is useful knowledge as GAs can outperform Q-learning and policy gradient methods for specific tasks\citep{DBLP:journals/corr/abs-1712-06567}.
+
+\subsection{Future plans}
+The results suggest that the building placement algorithm could benefit from predicting the composition of the enemy's army. However, such algorithms are not known thus more research is needed.
+
+One of the suggested improvements for the algorithm would be to improve the fitness function. It currently determines the fitness after the game while in reality attacks come in waves during the game. The algorithm would optimize the base layout until the first attack wave, and then consider all previous buildings as fixed. Until the next attack wave arrives, it would optimize only the positions of the buildings to be constructed\citep{barriga2014building}.
+
+Other suggestions for future work are to optimize presets for known players, add domain specific knowledge about advanced units and making it aware of choke-points such as building "walls".

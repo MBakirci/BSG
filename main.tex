@@ -1,0 +1,120 @@
+\documentclass[compsoc]{IEEEtran}
+% \documentclass[conference,compsoc,twoside]{IEEEtran}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{natbib}
+\usepackage{graphicx}
+\usepackage{wrapfig}
+\usepackage{lscape}
+\usepackage{rotating}
+\usepackage{epstopdf}
+\usepackage{xparse}
+
+% \makeatletter
+% \DeclareDocumentEnvironment{appendixfig}{}{
+%   \par\medskip\noindent
+%   \begin{minipage}{\linewidth}{
+%   \def\@captype{figure}
+%   \centering
+% }
+% \end{minipage}{
+% \par\bigskip
+% }}
+% \makeatother 
+
+\title{Intelligent Agents in Real-Time Strategy Games}
+
+\author{
+    \IEEEauthorblockN{
+        M. Bakirci,
+        J. Mulder, 
+        M. Dias Avelino,
+        P. Popieluch,
+        T. Schijvenaars and
+        A. Wali
+    }
+
+    \IEEEauthorblockA{
+        Faculty of Electrical Engineering, Mathematics and Computer Science,
+        TU Delft\\
+        Delft, The Netherlands\\
+        \{
+            m.bakirci, 
+            j.mulder-5, 
+            m.diasavelino, 
+            p.popieluch, 
+            t.c.f.schijvenaars, 
+            a.wali-1
+        \}@student.tudelft.nl
+    }
+}
+
+\date{February 2019}
+
+\begin{document}
+
+\maketitle
+
+\input{0-abstract.tex}
+
+% Marcelo
+\section{Introduction}
+\input{1-intro.tex}
+
+% Tim
+\section[Learning Macromanagement]{Learning Macromanagement\citep{justesen2017learning}} 
+\input{2-macrodeeplearn.tex}
+
+% Piotr
+\section[Building Placement Optimization]{Building Placement Optimization\citep{barriga2014building}}
+\input{3-buildingplacement.tex}
+
+% Mehmet
+\section[Generalizing Plans to New Environments in Relational MDPs]{Generalizing Plans to New Environments in Relational MDPs\citep{Guestrin:2003:GPN:1630659.1630803}}
+\input{4-generalizingplans.tex}
+
+% Asror
+\section{The StarCraft Multi-Agent Challenge}
+\input{5-starcraftmultiagentchallenge.tex}
+
+% Joep
+\section{AlphaStar}
+\input{6-alphastar.tex}
+
+\section{Conclusion}
+\input{7-conclusion.tex}
+
+\section{Acknowledgements}
+We would like to thank our supervisor, Aleksander Czechowski, for his guidance, valuable feedback and support.
+
+\onecolumn
+\begin{appendices}
+%   \section{General overview of RTS algorithms}
+%   \begin{appendixfig}
+%     \includegraphics[width=\textwidth, angle=90, origin=c]{images/mindmap.png}
+%     \label{}
+%   \end{appendixfig}
+%    \begin{sidewaysfigure}[h]
+%    \includegraphics[width=0.5\textwidth, keepaspectratio]{images/mindmap.png}
+%    % \caption{Property profile of the diverse library compared to the compound pool.}
+%    \label{fig:PropProf}
+%    \end{sidewaysfigure}
+    \newpage
+    \section{What is a Markov decision process?}
+    \input{MDP.tex}
+\end{appendices}
+\twocolumn
+
+% \onecolumn
+% \appendix
+% \chapter{General overview of algorithms used for RTS games}
+% \begin{sidewaysfigure}[t]
+%     \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{images/mindmap.png}
+%     % \caption{Property profile of the diverse library compared to the compound pool.}
+%     \label{fig:PropProf}
+% \end{sidewaysfigure}
+% \twocolumn
+
+\bibliographystyle{unsrt}
+\bibliography{references}
+\end{document}

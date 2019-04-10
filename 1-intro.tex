@@ -1,0 +1,63 @@
+\IEEEPARstart{F}{or} the past fifteen years since Buro's\citep{buro2004call} call for more AI research in the Real-Time Strategy (RTS) game genre, the field has made impressive progress. It has grown from the simple AI shipped with games in single-player campaigns or bots to play skirmishes against to the milestones of DeepMind's AlphaStar\citep{arulkumaran2019alphastar} or OpenAI's Five\citep{openaifive} winning against professional players. 
+
+This progress has been stimulated by the well-defined environments provided by RTS games whose difficulty can be tailored for specific aspects of AI training and complexity is reminiscent of real life scenarios. In his motivation for RTS AI research\citep{buro2004rts}, Buro defines multiple fundamental research problems:
+\begin{itemize}
+    \item Decision making under uncertainty
+    \item Spatial and temporal reasoning
+    \item Adversarial real-time planning
+    \item Opponent modelling/learning
+    \item Resource management
+    \item Collaboration
+\end{itemize}
+
+Each of these problems can and have been tackled in unique ways with various degrees of success using both algorithms developed in different fields. For example Influence Maps\citep{uriarte2012kiting} that were originally developed for robot navigation and have now been used for micromanaging units in an RTS game, or Deep Learning\citep{lecun2015deep} and Reinforcement Learning\citep{mnih2015human} which were developed specifically for AI and enable the bot to analyze what it sees and learn from its experiences.
+
+Being able to approach these challenges in so many different ways makes it a daunting and difficult task to keep track of the fast, if not sometimes exponential, progress of the field of AI. This survey aims to provide a glimpse into some of the current state-of-the-art methods and algorithms applied to the genre of RTS.
+
+\subsection{Background of RTS games}
+Real-Time strategy games are a sub-category of strategy games but where the game progresses in real time, meaning the game is not divided into ordered turns and each player can play at his own pace. This in contrast to, for example, a game like Civilization\citep{civilization}.
+
+RTS games are usually war games where multiple players start in different places in a game map without any knowledge of where their opponents are located and no resources readily available to them. The goal of the game is to collect resources from the environment use those resources to upgrade their base and build-up an army to ultimately defeat their opponents, and in the end being the last one standing. These games often contain multiple factions a player can choose from, with each having their own strengths, weaknesses and optimal ways of playing them.
+
+These games combine multiple difficult scenarios and challenges as the game progresses. A good player needs to be able to control its unit in a fast and precise way, known as \textit{micromanaging}, with professional players being able to reach 400 actions per minute\citep{apmwcs}. A strong micromanagement allows the player to gather more information on the adversary through scouting, to harass the enemy's base and disrupting his economy, and can change the tide of battle by being able to deal more damage to the opponent's units while taking less damage by using techniques such as \textit{kiting}. Kiting consists of dealing damage to an enemy while keeping enough distance that the enemy is not able to deal damage back. An AI needs therefore needs to learn how to control units and come up with strategies on how to use and combine all different types of units, with all their advantages and disadvantages.
+
+The flip side of micromanagement is called \textit{macromanagement}. This is the ability to come up with a strategy on how to setup the resource economy and what to spend it on, often referred to as planning. Resources are scarce and its gathering is very slow at the beginning, making it very important to devise an optimal plan on what to spend it on because a wrong decision can impair the economic momentum and therefore widening the progress gap between players.
+
+For example, at the beginning the player has to devise the most efficient way to gather resources and which building and/or units should be prioritized, a strategy which is very dependant on the faction selection of the opponent(s), which translate different possible strategies being used. For example, the other player(s) might choose to attack very early on catching the player unaware and unprepared because the player was focusing on increasing resource production instead of building defenses. On the other hand, if the player spends too many resources building defenses early in the game it might impair the development of the player's economy, allowing the opponent(s) to build stronger units first and as such making the player's earlier built defenses obsolete.
+
+Some examples of these types of games are Blizzard's StarCraft\citep{starcraftgame} or WarCraft\citep{warcraftgame}, which are RTS games that take place in the future or in a fantasy world respectively, and Ensemble Studios' Age of Empires\citep{ageofempiresgame}, which is a game based on historical events and factions.
+
+The many strategies and considerations an AI algorithms has to take into account, many of which are yet to be discovered or will be made obsolete when a new update to the game is released, means RTS games provide a difficult, complex and good benchmark.
+
+% Van hier
+\subsection{Research Question and Sub-questions}
+
+The initial goal of this literature review was to summarize the state of the art and open challenges within the field of RTS for AI. Because the problems presented in the beginning of this chapter cover a very broad and disparate area of research, a selection of papers with promising techniques was made. Each paper covers one or multiple research problems (e.g. Adversarial Real–time Planning, Opponent Learning, and Spatial and Temporal Reasoning) and answer the following research question:
+
+\vspace{2mm}
+\textit{"What AI techniques and algorithms have been used to solve some of the fundamental research problems in RTS games?"}
+\vspace{2mm}
+
+
+To better answer the main research question, sub-questions were made:
+\begin{description}
+\item[\textit{"How does the technique work?"}]
+\item[\textit{"What are the strong and weak points of the technique?"}]
+\end{description}
+
+The first sub-question is specified to give the reader a notion on how the technique works and what applications it has. The second sub-question is meant to give the reader an idea on how effective this technique can be when used for its specific task.
+
+\subsection{Outline}
+
+The paper will be structured in the following order:
+% Tot hier
+
+Chapter \ref{chapter:macro-management} will go into detail on how the macro-management component of a bot can be trained purely by learning from game replays and used for Adversarial Real–time Planning.
+
+Chapter \ref{chapter:genetic-building} explains how an genetic algorithm can be used to determine the most optimal building placement strategy to deter enemy assaults.
+
+Chapter \ref{chapter:generalizing-planning} falls within the Opponent Learning category and describes how Reinforcement Learning can be applied for the micro-management of units during combat.
+
+Chapter \ref{chapter:starcraftmultiagentchallenge} \& \ref{chapter:alphastar} summarize the accomplishments of StarCraft bots when pitted either against each other or against real players.
+
+% Appendix "something" is a mindmap which gives a general overview of what algorithms have been used to solve certain research problems in RTS games.
